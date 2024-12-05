@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">LoginDIN</string>
+    <string name="signin">Sign in</string>
+</resources>
