@@ -14,13 +14,29 @@ class LoginViewModel: ViewModel() {
     private val _isLoginEnabled = MutableLiveData<Boolean>()
     val isLoginEnabled = _isLoginEnabled
 
-    fun onLoginChanged(email: String, password: String){
+    private val _emailError = MutableLiveData<Boolean>()
+    val emailError = _emailError
+
+    private val _passwordError = MutableLiveData<Boolean>()
+    val passwordError = _passwordError
+
+    private val _isPasswordVisible = MutableLiveData<Boolean>()
+    val isPasswordVisible = _isPasswordVisible
+
+    fun onEmailChanged(email: String){
         _email.value = email
-        _password.value = password
-        _isLoginEnabled.value = enableLogin(email, password)
     }
 
+    fun onPasswordChanged(password: String){
+        _password.value = password
+    }
+
+    fun changePasswordVisibility(visibility:Boolean){
+        _isPasswordVisible.value = visibility
+    }
+
+
     fun enableLogin(email: String, password: String): Boolean{
-        return true
+        return passwordError.value == true && emailError.value == true
     }
 }
