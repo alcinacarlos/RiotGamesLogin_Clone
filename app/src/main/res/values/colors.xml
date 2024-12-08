@@ -10,6 +10,7 @@
     <color name="gray">#808080</color>
     <color name="riotbackground">#1c1934</color>
     <color name="riotletra">#94a3cd</color>
-    <color name="loginbutton">#2e3d67</color>
+    <color name="loginbutton">#2D4075</color>
     <color name="loginbuttondisabled">#0CFFFFFF</color>
+    <color name="cantsignin">#7184bd</color>
 </resources>

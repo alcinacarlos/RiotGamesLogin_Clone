@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">LoginDIN</string>
-    <string name="signin">Iniciar Sesión</string>
+    <string name="signin">Crear Cuenta</string>
+    <string name="login">Iniciar Sesión</string>
     <string name="email">CORREO ELECTRÓNICO</string>
     <string name="password">CONTRASEÑA</string>
     <string name="keep_logged_in">Mantener sesión iniciada</string>
+    <string name="cantlogin">¿No puedes iniciar sesión?</string>
+    <string name="cantsignin">¿No quieres crear una cuenta?</string>
 </resources>

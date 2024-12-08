@@ -1,18 +1,21 @@
-package com.carlosalcina.logindin
+package com.carlosalcina.logindin.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.carlosalcina.logindin.ui.theme.LoginDINTheme
+import androidx.navigation.NavController
 import com.carlosalcina.logindin.viewmodel.LoginViewModel
 
 @Composable
-fun Login(modifier: Modifier = Modifier, loginViewModel: LoginViewModel) {
+fun Login(
+    modifier: Modifier = Modifier,
+    loginViewModel: LoginViewModel,
+    navController: NavController
+) {
     Column(
         modifier = modifier
     ) {
         Header()
-        Body(loginViewModel)
+        BodyLogin(loginViewModel, navController)
     }
 }

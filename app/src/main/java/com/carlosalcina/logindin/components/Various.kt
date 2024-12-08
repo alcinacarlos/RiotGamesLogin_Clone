@@ -1,12 +1,11 @@
-package com.carlosalcina.logindin
+package com.carlosalcina.logindin.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,23 +14,22 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Password
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -48,76 +46,16 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.carlosalcina.logindin.viewmodel.LoginViewModel
+import com.carlosalcina.logindin.R
 
-@Composable
-fun Body(loginViewModel: LoginViewModel) {
-    val email by loginViewModel.email.observeAsState(initial = "")
-    val password by loginViewModel.password.observeAsState(initial = "")
-
-    val rememberLogin by loginViewModel.rememberLogin.observeAsState(initial = false)
-    val isLoginEnable by loginViewModel.isLoginEnabled.observeAsState(initial = false)
-    val isPasswordVisible by loginViewModel.isPasswordVisible.observeAsState(initial = false)
-
-    val emailError by loginViewModel.emailError.observeAsState(initial = false)
-    val passwordError by loginViewModel.passwordError.observeAsState(initial = false)
-
-    val focusRequester = remember { FocusRequester() }
-
-    Box(
-        modifier = Modifier.padding(30.dp)
-    ) {
-        BodyBackground()
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(25.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            SignInText()
-            Email(
-                email = email,
-                emailError = emailError,
-                onTextChanged = { loginViewModel.onEmailChanged(it) },
-                focusRequester = focusRequester
-            )
-            Password(
-                password = password,
-                passwordError = passwordError,
-                isPasswordVisible = isPasswordVisible,
-                onPasswordVisibility = {loginViewModel.changePasswordVisibility()},
-                onTextChanged = { loginViewModel.onPasswordChanged(it) },
-                focusRequester = focusRequester
-            )
-            KeepLoggedInCheckbox(
-                isChecked = rememberLogin,
-                onCheckedChange = {loginViewModel.changeRemeberLogin()},
-                focusRequester = focusRequester
-            )
-            SocialMediaButtons()
-            LoginButton(
-                enabled = isLoginEnable,
-                onClick = {}
-            )
-        }
-    }
-}
 
 @Composable
 fun Email(
@@ -126,15 +64,12 @@ fun Email(
     onTextChanged: (String) -> Unit,
     focusRequester: FocusRequester
 ) {
-    val gradientColors = listOf(colorResource(R.color.white), colorResource(R.color.gray), colorResource(R.color.white), colorResource(R.color.gray))
-    val errorColors = listOf(Color.Red, Color.Red)
 
     var isFocused by remember { mutableStateOf(false) }
 
     BoxConDegradado(
         isFocused = isFocused,
         isError = emailError,
-        gradientColors = if (emailError) errorColors else gradientColors,
         modifier = Modifier
             .onFocusChanged { focusState ->
                 isFocused = focusState.isFocused
@@ -178,19 +113,17 @@ fun Email(
 fun Password(
     password: String,
     passwordError: Boolean,
-    isPasswordVisible:Boolean,
+    isPasswordVisible: Boolean,
     onPasswordVisibility: () -> Unit,
     onTextChanged: (String) -> Unit,
     focusRequester: FocusRequester
 ) {
-    val gradientColors = listOf(colorResource(R.color.white), colorResource(R.color.gray), colorResource(R.color.white), colorResource(R.color.gray))
-    val errorColors = listOf(Color.Red, Color.Red)
+
     var isFocused by remember { mutableStateOf(false) }
 
     BoxConDegradado(
         isFocused = isFocused,
         isError = passwordError,
-        gradientColors = if (passwordError) errorColors else gradientColors,
         modifier = Modifier
             .onFocusChanged { focusState ->
                 isFocused = focusState.isFocused
@@ -253,10 +186,17 @@ fun coloresCampos() = TextFieldDefaults.outlinedTextFieldColors(
 fun BoxConDegradado(
     isFocused: Boolean,
     isError: Boolean,
-    gradientColors: List<Color>,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
+    val gradientColors = if (!isError){ listOf(
+        colorResource(R.color.white),
+        colorResource(R.color.gray),
+        colorResource(R.color.white),
+        colorResource(R.color.gray)
+    )}else{
+        listOf(Color.Red, Color.Red)
+    }
     Box(
         modifier = modifier
             .clip(shape = RoundedCornerShape(15.dp))
@@ -280,6 +220,7 @@ fun BoxConDegradado(
         content()
     }
 }
+
 @Composable
 fun KeepLoggedInCheckbox(
     isChecked: Boolean,
@@ -294,7 +235,8 @@ fun KeepLoggedInCheckbox(
             .onFocusChanged { focusState ->
                 isFocused.value = focusState.isFocused
             },
-        verticalAlignment = Alignment.CenterVertically) {
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Checkbox(
             checked = isChecked,
             onCheckedChange = { newValue ->
@@ -320,14 +262,15 @@ fun LoginButton(
     onClick: () -> Unit,
     enabled: Boolean
 ) {
-    IconButton(
+    Spacer(modifier = Modifier.height(20.dp))
+    Button(
         onClick = onClick,
         enabled = enabled,
-        colors = IconButtonColors(
+        colors = ButtonColors(
             contentColor = colorResource(R.color.white),
             containerColor = colorResource(R.color.loginbutton),
             disabledContainerColor = colorResource(R.color.loginbuttondisabled),
-            disabledContentColor =  colorResource(R.color.white)
+            disabledContentColor = colorResource(R.color.white)
         ),
         modifier = Modifier
             .size(100.dp)
@@ -341,14 +284,43 @@ fun LoginButton(
     }
 }
 
-
 @Composable
-fun SignInText() {
+fun WelcomeText(
+    text:String
+) {
     Spacer(modifier = Modifier.height(20.dp))
     Text(
-        text = stringResource(R.string.signin),
+        text = text,
         color = Color.White,
         fontSize = 22.sp,
         fontWeight = FontWeight.Bold
     )
+}
+
+@Composable
+fun FooterButton(
+    question: String,
+    text: String,
+    onClickSignIn: () -> Unit
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = question,
+            color = colorResource(R.color.cantsignin),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium
+        )
+        Text(
+            text = text,
+            color = colorResource(R.color.cantsignin),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.clickable {
+                onClickSignIn()
+            }
+        )
+    }
 }
