@@ -3,4 +3,5 @@
     <string name="signin">Iniciar Sesión</string>
     <string name="email">CORREO ELECTRÓNICO</string>
     <string name="password">CONTRASEÑA</string>
+    <string name="keep_logged_in">Mantener sesión iniciada</string>
 </resources>

@@ -10,7 +10,9 @@ import com.carlosalcina.logindin.R
 
 val poppinsFontFamily = FontFamily(
     Font(R.font.poppins_regular, FontWeight.Normal),
-    Font(R.font.poppins_bold, FontWeight.Bold)
+    Font(R.font.poppins_semibold, FontWeight.SemiBold),
+    Font(R.font.poppins_bold, FontWeight.Bold),
+    Font(R.font.poppins_medium, FontWeight.Medium)
 )
 
 val Typography = Typography(
@@ -23,6 +25,11 @@ val Typography = Typography(
         fontFamily = poppinsFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = poppinsFontFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 20.sp
     )
 )
 
