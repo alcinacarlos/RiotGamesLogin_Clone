@@ -1,11 +1,9 @@
 package com.carlosalcina.logindin.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.*
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.carlosalcina.logindin.screens.LoggedScreen
 import com.carlosalcina.logindin.screens.LoginScreen
 import com.carlosalcina.logindin.screens.SignInScreen

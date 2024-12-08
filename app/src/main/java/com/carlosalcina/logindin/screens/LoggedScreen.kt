@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.carlosalcina.logindin.components.Logged
-import com.carlosalcina.logindin.components.Login
 import com.carlosalcina.logindin.components.LoginBackground
 import com.carlosalcina.logindin.viewmodel.LoginViewModel
 
